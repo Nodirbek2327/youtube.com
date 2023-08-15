@@ -1,0 +1,14 @@
+POST http://localhost:8080/api/v1/attach/upload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTIxMTk5NDYsImVtYWlsIjoiMTIzNDU2N0BtYWlsLnV6Iiwicm9sZSI6IlJPTEVfVVNFUiIsImV4cCI6MTY5MjIwNjM0NiwiaXNzIjoia3VudXogdGVzdCBwb3J0YWxpIn0.C6sw32shnX0dMxmC27W0S7tcBthLGsvHq_NylzXt1MuXWcQisdsuwN4rrzwrPQmEGBaXKYC591bjEneWTHOkZA
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="ssstwitter.com_1690289136341.mp4"
+
+< C:\Users\Nodirbek\Downloads\Telegram Desktop\ssstwitter.com_1690289136341.mp4
+
+### get by id
+GET http://localhost:8080/api/v1/attach/open/get/4f9d75dd-68f3-42e3-824a-3a8b375416c1
+
+### delete
+DELETE http://localhost:8080/api/v1/attach/admin/delete?id=97bbd144-353b-4ad5-bfbf-549ba7e1f1e0

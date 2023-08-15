@@ -1,0 +1,37 @@
+### Create
+POST localhost:8080/api/v1/category/admin/create
+Content-Type:  application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTE0MjQ0NzEsInBob25lIjoiKzk5ODkxNTI1NDQ3NSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNjkxNTEwODcxLCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.AudabOkuBh7f9BFd7q5IQrWXGHlXbH3BN4MXJ0Ys0uZxlwv8OEB05HmkCR_NewfE6BliJeN0KWhQ6eHAC4j9dQ
+
+{
+  "orderNumber": 4,
+  "nameEng": "category1 eng",
+  "nameRu": "tag1 ru",
+  "nameUz": "tag1 uz"
+}
+
+
+### update
+PUT localhost:8080/api/v1/category/admin/update?id=4
+Content-Type:  application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTE0MjQ0NzEsInBob25lIjoiKzk5ODkxNTI1NDQ3NSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNjkxNTEwODcxLCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.AudabOkuBh7f9BFd7q5IQrWXGHlXbH3BN4MXJ0Ys0uZxlwv8OEB05HmkCR_NewfE6BliJeN0KWhQ6eHAC4j9dQ
+
+
+{
+  "orderNumber": 4,
+  "nameEng": "sport3 eng",
+  "nameRu": "sport3 ru",
+  "nameUz": "sport3 uz"
+}
+
+### delete by id
+DELETE localhost:8080/api/v1/category/admin/delete?id=3
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTE0MjQ0NzEsInBob25lIjoiKzk5ODkxNTI1NDQ3NSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNjkxNTEwODcxLCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.AudabOkuBh7f9BFd7q5IQrWXGHlXbH3BN4MXJ0Ys0uZxlwv8OEB05HmkCR_NewfE6BliJeN0KWhQ6eHAC4j9dQ
+
+
+### get by pagination
+GET localhost:8080/api/v1/category/admin/pagination?from=1&to=3
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTE0MjQ0NzEsInBob25lIjoiKzk5ODkxNTI1NDQ3NSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNjkxNTEwODcxLCJpc3MiOiJrdW51eiB0ZXN0IHBvcnRhbGkifQ.AudabOkuBh7f9BFd7q5IQrWXGHlXbH3BN4MXJ0Ys0uZxlwv8OEB05HmkCR_NewfE6BliJeN0KWhQ6eHAC4j9dQ
+
+### get by lang
+GET localhost:8080/api/v1/category/language?lang=uz

@@ -1,0 +1,23 @@
+### Auth
+POST localhost:8080/api/v1/auth/login
+Content-Type:  application/json
+
+{
+  "email": "1234567@mail.uz",
+  "password": "1234567"
+}
+
+
+### Registration
+POST localhost:8080/api/v1/auth/registration
+Content-Type:  application/json
+
+{ "name": "Nodirbek",
+  "surname": "Hasanov",
+  "email": "hasanovnodir0703@gmail.com",
+  "password": "12345"
+}
+
+
+### Email verification
+GET localhost:8080/api/v1/auth/verification/email/dasdasdasd

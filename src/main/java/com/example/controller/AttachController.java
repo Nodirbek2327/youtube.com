@@ -4,6 +4,7 @@ import com.example.config.CustomUserDetails;
 import com.example.dto.AttachDTO;
 import com.example.service.AttachService;
 import com.example.util.SpringSecurityUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -12,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/attach")
 public class AttachController {
@@ -22,17 +24,20 @@ public class AttachController {
     @PostMapping("/upload")
     public ResponseEntity<AttachDTO> upload(@RequestParam("file") MultipartFile file) {
         CustomUserDetails userDetails = SpringSecurityUtil.getCurrentUser();
+        log.info("saving attach {}", file.getName());
         return ResponseEntity.ok().body(attachService.save(file, userDetails.getProfile().getId()));
     }
 
     @GetMapping(value = "/open/get/{id}", produces = MediaType.ALL_VALUE)
     public byte[] openByIdGeneral(@PathVariable("id") String id) {
+        log.info("opening attach {}", id);
         return attachService.loadByIdGeneral(id);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/admin/delete")
     public ResponseEntity<?> delete(@RequestParam("id") String id) {
+        log.info("deleting attach {}", id);
         return ResponseEntity.ok(attachService.delete(id));
     }
 
@@ -40,11 +45,13 @@ public class AttachController {
     @GetMapping(value = "/admin/pagination")
     public ResponseEntity<?> pagination(@RequestParam("from") int from,
                                         @RequestParam("to") int to) {
+        log.info("pagination attach");
         return ResponseEntity.ok(attachService.attachPagination(from-1, to));
     }
 
     @GetMapping("/open/download/{id}")
     public ResponseEntity<Resource> download(@PathVariable("id") String id) {
+        log.info("downloading attach {}", id);
         return attachService.download(id);
     }
 

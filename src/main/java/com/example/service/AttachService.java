@@ -5,7 +5,7 @@ import com.example.entity.AttachEntity;
 import com.example.exp.AppBadRequestException;
 import com.example.exp.ItemNotFoundException;
 import com.example.repository.AttachRepository;
-import com.xuggle.xuggler.IContainer;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -29,6 +29,7 @@ import java.nio.file.Paths;
 import java.util.*;
 
 @Service
+@Slf4j
 public class AttachService {
 
     @Value("${attach.folder.name}")
@@ -56,13 +57,13 @@ public class AttachService {
 
             AttachEntity entity = new AttachEntity();
 
-            if (extension.equals("mp4")) {
-                    IContainer container = IContainer.make();
-                    container.open(path.toString(), IContainer.Type.READ, null);
-                    long duration = container.getDuration();
-                    entity.setDuration(duration);
-                    container.close();
-            }
+//            if (extension.equals("mp4")) {
+//                    IContainer container = IContainer.make();
+//                    container.open(path.toString(), IContainer.Type.READ, null);
+//                    long duration = container.getDuration();
+//                    entity.setDuration(duration);
+//                    container.close();
+//            }
             entity.setId(key);
             entity.setPath(pathFolder); // 2022/04/23
             entity.setSize(file.getSize());
@@ -72,6 +73,7 @@ public class AttachService {
             entity.setUrl(path.toString());
 
             attachRepository.save(entity);
+            log.info("attach saved successfully");
 
             AttachDTO attachDTO = new AttachDTO();
             attachDTO.setId(key);
@@ -96,6 +98,7 @@ public class AttachService {
             FileInputStream fileInputStream = new FileInputStream(file);
             fileInputStream.read(bytes);
             fileInputStream.close();
+            log.info("attach is ready to open ");
             return bytes;
         } catch (Exception e) {
             return new byte[0];
@@ -111,12 +114,15 @@ public class AttachService {
             Resource resource = new UrlResource(file.toUri());
 
             if (resource.exists() || resource.isReadable()) {
+                log.info("download successfully");
                 return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename=\"" + entity.getOriginalName() + "\"").body(resource);
             } else {
+                log.warn("Could not read the file!");
                 throw new RuntimeException("Could not read the file!");
             }
         } catch (MalformedURLException e) {
+            log.warn("Error: {}" + e.getMessage());
             throw new RuntimeException("Error: " + e.getMessage());
         }
     }
@@ -127,7 +133,8 @@ public class AttachService {
 
 
     private AttachEntity get(String id) {
-        return attachRepository.findById(id).orElseThrow(() -> new AppBadRequestException("image not found"));
+        return attachRepository.findById(id).orElseThrow(() ->
+                new AppBadRequestException("image not found"));
     }
 
     public PageImpl<AttachDTO> attachPagination(int page, int size) {
@@ -139,6 +146,7 @@ public class AttachService {
     public boolean delete(String id) {
         Optional<AttachEntity> optional = attachRepository.findById(id);
         if (optional.isPresent()){
+            log.info("attach not found");
             return false;
         }
         AttachEntity entity = optional.get();
@@ -146,8 +154,10 @@ public class AttachService {
         try {
             File fileToDelete = new File(path.toUri());
             attachRepository.deleteById(id);
+            log.info("attach is  deleted");
             return fileToDelete.delete();
         } catch (Exception e) {
+            log.warn("Error occurred while deleting the file: {}" + e.getMessage());
             System.out.println("Error occurred while deleting the file: " + e.getMessage());
         }
       return true;
@@ -155,6 +165,7 @@ public class AttachService {
 
     private List<AttachDTO> getAttachDTOS(List<AttachEntity> list) {
         if (list.isEmpty()) {
+            log.info("attach not found in pagination");
             throw  new ItemNotFoundException("attach not found");
         }
         List<AttachDTO> dtoList = new LinkedList<>();

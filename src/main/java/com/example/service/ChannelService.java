@@ -9,6 +9,7 @@ import com.example.exp.AppBadRequestException;
 import com.example.exp.ItemNotFoundException;
 import com.example.repository.AttachRepository;
 import com.example.repository.ChannelRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class ChannelService {
     @Autowired
     private ChannelRepository channelRepository;
@@ -31,6 +33,7 @@ public class ChannelService {
         check(dto);
         Optional<ChannelEntity> channelEntity = channelRepository.findByName(dto.getName());
         if (channelEntity.isPresent()) {
+            log.warn("channel_name: {}  already exists"+dto.getName());
             throw new AppBadRequestException("name already exists");
         }
         ChannelEntity entity = new ChannelEntity();
@@ -42,6 +45,7 @@ public class ChannelService {
         entity.setStatus(Status.ACTIVE);
 
         channelRepository.save(entity);
+        log.info("channel created");
 
         dto.setId(entity.getId());
         dto.setCreatedDate(entity.getCreatedDate());
@@ -58,7 +62,7 @@ public class ChannelService {
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
         channelRepository.save(entity); // save
-
+        log.info("channel updated");
         dto.setId(entity.getId());
         dto.setCreatedDate(entity.getCreatedDate());
         return dto;
@@ -114,6 +118,7 @@ public class ChannelService {
 
     private void check(ChannelDTO dto) {
         if (dto.getName() == null || dto.getName().isBlank()) {
+            log.warn("channel name qani to create");
             throw new AppBadRequestException("Name qani?");
         }
     }
@@ -132,6 +137,7 @@ public class ChannelService {
 
     private List<ChannelDTO> getDTOS(List<ChannelEntity> list) {
         if (list.isEmpty()) {
+            log.warn("channel not found");
             throw  new ItemNotFoundException("channel not found");
         }
         List<ChannelDTO> dtoList = new LinkedList<>();

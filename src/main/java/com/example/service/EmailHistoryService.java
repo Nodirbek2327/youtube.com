@@ -7,6 +7,7 @@ import com.example.entity.EmailHistoryEntity;
 import com.example.exp.ItemNotFoundException;
 import com.example.repository.CustomRepository;
 import com.example.repository.EmailHistoryRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +18,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class EmailHistoryService {
     @Autowired
     private EmailHistoryRepository emailHistoryRepository;
@@ -26,17 +28,20 @@ public class EmailHistoryService {
     public PageImpl<EmailHistoryDTO> emailHistoryPagination(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         PageImpl<EmailHistoryEntity> pageObj = emailHistoryRepository.findAll(pageable);
+        log.info("emailHistoryPagination is completing");
         return new PageImpl<>(getEmailHistoryDTOS(pageObj.getContent()), pageable, pageObj.getTotalElements());
     }
 
     public PageImpl<EmailHistoryDTO> emailHistoryPaginationByEmail(int page, int size, String email) {
         Pageable pageable = PageRequest.of(page, size);
         PageImpl<EmailHistoryEntity> pageObj = emailHistoryRepository.findAllByEmail(email, pageable);
+        log.info("emailHistoryPaginationByEmail is completing");
         return new PageImpl<>(getEmailHistoryDTOS(pageObj.getContent()), pageable, pageObj.getTotalElements());
     }
 
     public PageImpl<EmailHistoryDTO> filter(EmailHistoryFilterDTO filterDTO, int page, int size) {
         FilterDTO<EmailHistoryEntity> result = customRepository.filterEmail(filterDTO, page, size);
+        log.info("filter email history is  completing");
         return new PageImpl<>(getEmailHistoryDTOS(result.getEntityList()), PageRequest.of(page, size), result.getTotalCount());
     }
 
@@ -53,6 +58,7 @@ public class EmailHistoryService {
 
     private List<EmailHistoryDTO> getEmailHistoryDTOS(List<EmailHistoryEntity> list) {
         if (list.isEmpty()) {
+            log.warn("email not found");
             throw new ItemNotFoundException("email not found");
         }
         List<EmailHistoryDTO> dtoList = new LinkedList<>();

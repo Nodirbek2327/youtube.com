@@ -22,7 +22,7 @@ public class ChannelController {
         return ResponseEntity.ok(channelService.create(dto, userDetails.getProfile().getId()));
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_OWNER')")
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
     @PutMapping(value = "/update/{id}")
     public ResponseEntity<?> update(@RequestBody ChannelDTO dto,
                                     @PathVariable("id") String id) {
@@ -30,13 +30,13 @@ public class ChannelController {
         return ResponseEntity.ok(channelService.update(id, dto, userDetails.getProfile().getId()));
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_OWNER')")
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
     @PutMapping(value = "/update/attach")
     public ResponseEntity<Boolean> updateChannelPhoto(@RequestParam("attach_id") String attach_id) {
         return ResponseEntity.ok(channelService.updateAttach(SpringSecurityUtil.getCurrentUser().getProfile(), attach_id));
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_OWNER')")
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
     @PutMapping(value = "/update/banner")
     public ResponseEntity<Boolean> updateChannelBanner(@RequestParam("attach_id") String attach_id) {
         return ResponseEntity.ok(channelService.updateBanner(SpringSecurityUtil.getCurrentUser().getProfile(), attach_id));
@@ -55,13 +55,13 @@ public class ChannelController {
         return ResponseEntity.ok(channelService.getChannel(channelId));
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_OWNER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_OWNER')")
     @PutMapping(value = "/change_status")
     public ResponseEntity<Boolean> changeStatus(@RequestParam("channelId") String channelId) {
         return ResponseEntity.ok(channelService.changeStatus(channelId));
     }
 
-    @GetMapping(value = "/list")
+    @GetMapping(value = "open/list")
     public ResponseEntity<?> list() {
         return ResponseEntity.ok(channelService.list(SpringSecurityUtil.getCurrentUser().getProfile().getId()));
     }

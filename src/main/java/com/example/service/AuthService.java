@@ -8,12 +8,14 @@ import com.example.exp.AppBadRequestException;
 import com.example.repository.ProfileRepository;
 import com.example.util.JWTUtil;
 import com.example.util.MD5Util;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class AuthService {
     @Autowired
     private ProfileRepository profileRepository;
@@ -24,13 +26,16 @@ public class AuthService {
         // check
         Optional<ProfileEntity> optional = profileRepository.findByEmail(dto.getEmail());
         if (optional.isEmpty()) {
+            log.warn("email not found");
             return new ApiResponseDTO(false, "Login or Password not found");
         }
         ProfileEntity profileEntity = optional.get();
         if (!profileEntity.getPassword().equals(MD5Util.encode(dto.getPassword()))) {
+            log.warn("password is incorrect");
             return new ApiResponseDTO(false, "Login or Password not found");
         }
         if (!profileEntity.getStatus().equals(ProfileStatus.ACTIVE) || !profileEntity.getVisible()) {
+            log.warn("profile is not active");
             return new ApiResponseDTO(false, "Your status not active. Please contact with support.");
         }
 
@@ -40,6 +45,7 @@ public class AuthService {
         response.setRole(profileEntity.getRole());
         response.setEmail(profileEntity.getEmail());
         response.setJwt(JWTUtil.encode(profileEntity.getEmail(), profileEntity.getRole()));
+        log.info("profile  successfully login");
         return new ApiResponseDTO(true, response);
     }
 
@@ -49,6 +55,7 @@ public class AuthService {
             if (exists.get().getStatus().equals(ProfileStatus.REGISTRATION)) {
                 profileRepository.delete(exists.get()); // delete
             } else {
+                log.warn("email already exists");
                 return new ApiResponseDTO(false, "Email already exists.");
             }
         }
@@ -61,6 +68,7 @@ public class AuthService {
         entity.setStatus(ProfileStatus.REGISTRATION);
         profileRepository.save(entity);
         mailSenderService.sendEmailVerification(dto.getEmail(), entity.getName(), entity.getId());// send registration verification link
+        log.info("The verification link was send to email.");
         return new ApiResponseDTO(true, "The verification link was send to email.");
     }
 
@@ -69,15 +77,18 @@ public class AuthService {
 
         Optional<ProfileEntity> exists = profileRepository.findById(jwtDTO.getId());
         if (exists.isEmpty()) {
+            log.warn("profile not found  in registration");
             throw new AppBadRequestException("Profile not found");
         }
 
         ProfileEntity entity = exists.get();
         if (!entity.getStatus().equals(ProfileStatus.REGISTRATION)) {
+            log.warn("wrong status");
             throw new AppBadRequestException("Wrong status");
         }
         entity.setStatus(ProfileStatus.ACTIVE);
         profileRepository.save(entity); // update
+        log.info("Registration completed email: {}" +jwtDTO.getEmail());
         return new ApiResponseDTO(true, "Registration completed");
     }
 }

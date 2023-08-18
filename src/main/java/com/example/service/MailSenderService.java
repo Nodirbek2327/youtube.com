@@ -4,6 +4,7 @@ import com.example.repository.EmailHistoryRepository;
 import com.example.util.JWTUtil;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -14,6 +15,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Service
+@Slf4j
 public class MailSenderService {
     @Autowired
     private JavaMailSender javaMailSender;
@@ -36,8 +38,10 @@ public class MailSenderService {
             javaMailSender.send(msg);
             Thread.sleep(2000);
         } catch (MessagingException e) {
+            log.error(e.getMessage());
             throw new RuntimeException(e);
         }catch (InterruptedException e) {
+            log.error(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -56,6 +60,7 @@ public class MailSenderService {
         executorService.submit(() -> {
             sendMimeEmail(toAccount, "Kun uz registration compilation", builder.toString());
         });
+        log.info("email send successfully");
     }
 
 }

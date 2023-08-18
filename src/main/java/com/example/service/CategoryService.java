@@ -4,6 +4,7 @@ import com.example.dto.CategoryDTO;
 import com.example.entity.CategoryEntity;
 import com.example.exp.AppBadRequestException;
 import com.example.repository.CategoryRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
@@ -20,7 +22,7 @@ public class CategoryService {
         entity.setName(dto.getName());
         entity.setPrtId(prtId);
         categoryRepository.save(entity);
-
+        log.info("category created");
         dto.setId(entity.getId());
         dto.setCreatedDate(entity.getCreatedDate());
         return dto;
@@ -32,6 +34,7 @@ public class CategoryService {
         entity.setId(id);
         entity.setPrtId(prtId);
         categoryRepository.save(entity);
+        log.info(" category updated");
         return true;
     }
 

@@ -1,11 +1,11 @@
 POST http://localhost:8080/api/v1/attach/upload
 Content-Type: multipart/form-data; boundary=WebAppBoundary
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTIxMTk5NDYsImVtYWlsIjoiMTIzNDU2N0BtYWlsLnV6Iiwicm9sZSI6IlJPTEVfVVNFUiIsImV4cCI6MTY5MjIwNjM0NiwiaXNzIjoia3VudXogdGVzdCBwb3J0YWxpIn0.C6sw32shnX0dMxmC27W0S7tcBthLGsvHq_NylzXt1MuXWcQisdsuwN4rrzwrPQmEGBaXKYC591bjEneWTHOkZA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTI0Mjc3NjksImVtYWlsIjoiMTIzNDU2N0BtYWlsLnV6Iiwicm9sZSI6IlJPTEVfVVNFUiIsImV4cCI6MTY5MjUxNDE2OSwiaXNzIjoia3VudXogdGVzdCBwb3J0YWxpIn0.fPIJ9nUKyDM6IZHjFvM961XwduVg2BLiKcxvJEV7q1pidJZzOfL8QVc6RyKN0iw7j4vA0vGnEW1Y060XBwy1Nw
 
 --WebAppBoundary
-Content-Disposition: form-data; name="file"; filename="ssstwitter.com_1690289136341.mp4"
+Content-Disposition: form-data; name="file"; filename="image3.webp"
 
-< C:\Users\Nodirbek\Downloads\Telegram Desktop\ssstwitter.com_1690289136341.mp4
+< C:\Users\Nodirbek\Pictures\Saved Pictures\image3.webp
 
 ### get by id
 GET http://localhost:8080/api/v1/attach/open/get/4f9d75dd-68f3-42e3-824a-3a8b375416c1

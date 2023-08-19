@@ -1,14 +1,18 @@
 package com.example.repository;
 
 import com.example.entity.PlaylistEntity;
+import com.example.enums.PlaylistStatus;
 import com.example.mapper.PlayListInfoMapper;
 import com.example.mapper.PlayListMapper;
 import com.example.mapper.PlayListShortInfoMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 
@@ -17,9 +21,13 @@ public interface PlaylistRepository extends CrudRepository<PlaylistEntity, Integ
             " join ProfileEntity as p on  p.id = a.prtId  where  a.visible = true ")
     Page<PlayListInfoMapper> findAll(Pageable pageable);
 
-    @Query("update PlaylistEntity  set status = :new where id = :id ")
-    int changeStatus(@Param("new") String status,   @Param("id") Integer playId);
+    @Transactional
+    @Modifying
+    @Query("update PlaylistEntity  set status = :new where id = :id and prtId=:prtId")
+    int changeStatus(@Param("new") PlaylistStatus status, @Param("id") Integer playId, @Param("prtId") Integer prtId);
 
+    @Transactional
+    @Modifying
     @Query("update PlaylistEntity  set visible = false where id = :id ")
     int delete(@Param("id") Integer playId);
 

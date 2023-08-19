@@ -14,7 +14,7 @@ public class ChannelDTO {
     private String attachId;
     private String description;
     private Status status;
-    private String banner;
+    private String bannerId;
     private Integer profileId;
     private LocalDateTime createdDate;
 }

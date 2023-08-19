@@ -2,6 +2,7 @@ package com.example.service;
 
 import com.example.dto.*;
 import com.example.entity.ProfileEntity;
+import com.example.enums.Language;
 import com.example.enums.ProfileRole;
 import com.example.enums.ProfileStatus;
 import com.example.exp.AppBadRequestException;
@@ -10,8 +11,10 @@ import com.example.util.JWTUtil;
 import com.example.util.MD5Util;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Service;
 
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -21,6 +24,8 @@ public class AuthService {
     private ProfileRepository profileRepository;
     @Autowired
     private MailSenderService mailSenderService;
+    @Autowired
+    private ResourceBundleService bundleService;
 
     public ApiResponseDTO login(AuthDTO dto) {
         // check
@@ -49,14 +54,16 @@ public class AuthService {
         return new ApiResponseDTO(true, response);
     }
 
-    public ApiResponseDTO registration(RegistrationDTO dto) {
+    public ApiResponseDTO registration(RegistrationDTO dto, Language language) {
         Optional<ProfileEntity> exists = profileRepository.findByEmail(dto.getEmail());
         if (exists.isPresent()) {
             if (exists.get().getStatus().equals(ProfileStatus.REGISTRATION)) {
                 profileRepository.delete(exists.get()); // delete
             } else {
                 log.warn("email already exists");
-                return new ApiResponseDTO(false, "Email already exists.");
+             //   return new ApiResponseDTO(false, "Email already exists.");
+             //   return new ApiResponseDTO(false, messageSource.getMessage("email.already.exists", null, new Locale(language.name())));
+                return new ApiResponseDTO(false,bundleService.getMessage("email.already.exists", language) );
             }
         }
         ProfileEntity entity = new ProfileEntity();

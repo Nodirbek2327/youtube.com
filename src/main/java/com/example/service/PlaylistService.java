@@ -55,8 +55,8 @@ public class PlaylistService {
     }
 
 
-    public Boolean changeStatus(Integer play_id) {
-        return playlistRepository.changeStatus(PlaylistStatus.PRIVATE.name(), play_id)==1;
+    public Boolean changeStatus(PlaylistStatus status, Integer play_id, Integer prtId) {
+        return playlistRepository.changeStatus(status, play_id, play_id)==1;
     }
 
     public Boolean delete(Integer play_id) {

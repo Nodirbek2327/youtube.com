@@ -3,6 +3,7 @@ package com.example.controller;
 
 import com.example.config.CustomUserDetails;
 import com.example.dto.PlaylistDTO;
+import com.example.enums.PlaylistStatus;
 import com.example.service.PlaylistService;
 import com.example.util.SpringSecurityUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,7 @@ public class PlaylistController {
         return ResponseEntity.ok(playlistService.create(dto, userDetails.getProfile().getId()));
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_OWNER')")
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
     @PutMapping(value = "/update/{id}")
     public ResponseEntity<?> update(@RequestBody PlaylistDTO dto,
                                     @PathVariable("id") Integer id) {
@@ -34,14 +35,15 @@ public class PlaylistController {
         return ResponseEntity.ok(playlistService.update(id, dto, userDetails.getProfile().getId()));
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_OWNER')")
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
     @PutMapping(value = "/change_status")
-    public ResponseEntity<Boolean> changeStatus(@RequestParam("plId") Integer plId) {
+    public ResponseEntity<Boolean> changeStatus(@RequestParam("plId") Integer plId,
+                                                @RequestParam("status")  PlaylistStatus status) {
         log.info("changing playlist status");
-        return ResponseEntity.ok(playlistService.changeStatus(plId));
+        return ResponseEntity.ok(playlistService.changeStatus(status, plId, SpringSecurityUtil.getCurrentUser().getProfile().getId()));
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_OWNER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @PutMapping(value = "/delete")
     public ResponseEntity<Boolean> delete(@RequestParam("plId") Integer plId) {
         log.info("deleting playlist id: {}"+plId);
@@ -51,7 +53,7 @@ public class PlaylistController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/pagination")
     public ResponseEntity<?> pagination(@RequestParam("from") int from,
-                                        @RequestParam("to") int to) {
+                                        @RequestParam ("to") int to) {
         log.info("getting pagination playlist");
         return ResponseEntity.ok(playlistService.pagination(from-1, to));
     }

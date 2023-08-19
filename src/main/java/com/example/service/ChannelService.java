@@ -40,7 +40,7 @@ public class ChannelService {
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
         entity.setAttachId(dto.getAttachId());
-        entity.setBannerId(dto.getBanner());
+        entity.setBannerId(dto.getBannerId());
         entity.setProfileId(prtId);
         entity.setStatus(Status.ACTIVE);
 
@@ -57,7 +57,7 @@ public class ChannelService {
         ChannelEntity entity = get(channel_id);
         entity.setProfileId(prtId);
         entity.setStatus(Status.ACTIVE);
-        entity.setBannerId(dto.getBanner());
+        entity.setBannerId(dto.getBannerId());
         entity.setAttachId(dto.getAttachId());
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
@@ -68,24 +68,24 @@ public class ChannelService {
         return dto;
     }
 
-    public Boolean updateAttach(ProfileEntity profileEntity, String attachId) {
+    public Boolean updateAttach(ProfileEntity profileEntity, String attachId, String channelId) {
         if (profileEntity.getImageId() != null){
             attachRepository.deleteById(profileEntity.getImageId());
         }
          Optional<AttachEntity> optional = attachRepository.findById(attachId);
         if (optional.isPresent()){
-            return channelRepository.changeAttach(attachId, profileEntity.getId())==1;
+            return channelRepository.changeAttach(attachId, profileEntity.getId(), channelId )==1;
         }
         return false;
     }
 
-    public Boolean updateBanner(ProfileEntity profileEntity, String attachId) {
+    public Boolean updateBanner(ProfileEntity profileEntity, String attachId, String id) {
         if (profileEntity.getImageId() != null){
             attachRepository.deleteById(profileEntity.getImageId());
         }
         Optional<AttachEntity> optional = attachRepository.findById(attachId);
         if (optional.isPresent()){
-            return channelRepository.changeBanner(attachId, profileEntity.getId())==1;
+            return channelRepository.changeBanner(attachId, profileEntity.getId(), id)==1;
         }
         return false;
     }
@@ -93,7 +93,7 @@ public class ChannelService {
 
     public PageImpl<ChannelDTO> pagination(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<ChannelEntity> pageObj = channelRepository.findAllByStatus(Status.ACTIVE.toString(), pageable);
+        Page<ChannelEntity> pageObj = channelRepository.findAllByStatus(Status.ACTIVE, pageable);
         return new PageImpl<>(getDTOS(pageObj.getContent().stream().toList()), pageable, pageObj.getTotalElements());
     }
 
@@ -106,8 +106,8 @@ public class ChannelService {
        return channelRepository.changeStatus(channelId)==1;
     }
 
-    public List<ChannelDTO> list(Integer id) {
-        return getDTOS( channelRepository.findAllByProfileId(id));
+    public List<ChannelDTO> list() {
+        return getDTOS( channelRepository.findAllByStatus(Status.ACTIVE));
     }
 
 
@@ -128,7 +128,7 @@ public class ChannelService {
         dto.setName(entity.getName());
         dto.setStatus(entity.getStatus());
         dto.setCreatedDate(entity.getCreatedDate());
-        dto.setBanner(entity.getBannerId());
+        dto.setBannerId(entity.getBannerId());
         dto.setDescription(entity.getDescription());
         dto.setProfileId(entity.getProfileId());
         dto.setAttachId(entity.getAttachId());

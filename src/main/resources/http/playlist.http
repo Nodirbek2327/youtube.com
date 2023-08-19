@@ -1,0 +1,32 @@
+
+### create
+POST localhost:8080/api/v1/play_list/create
+Content-Type:  application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTI0Mjc3NjksImVtYWlsIjoiMTIzNDU2N0BtYWlsLnV6Iiwicm9sZSI6IlJPTEVfVVNFUiIsImV4cCI6MTY5MjUxNDE2OSwiaXNzIjoia3VudXogdGVzdCBwb3J0YWxpIn0.fPIJ9nUKyDM6IZHjFvM961XwduVg2BLiKcxvJEV7q1pidJZzOfL8QVc6RyKN0iw7j4vA0vGnEW1Y060XBwy1Nw
+
+{
+  "channel_id": "3754e994-afac-4d9e-979f-1d86c6d1203f",
+  "name": "name3.1",
+  "description": "des3.1",
+  "status": "PUBLIC",
+  "orderNumber": "7"
+}
+
+
+### update
+PUT localhost:8080/api/v1/play_list/update/2
+Content-Type:  application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTI0Mjc3NjksImVtYWlsIjoiMTIzNDU2N0BtYWlsLnV6Iiwicm9sZSI6IlJPTEVfVVNFUiIsImV4cCI6MTY5MjUxNDE2OSwiaXNzIjoia3VudXogdGVzdCBwb3J0YWxpIn0.fPIJ9nUKyDM6IZHjFvM961XwduVg2BLiKcxvJEV7q1pidJZzOfL8QVc6RyKN0iw7j4vA0vGnEW1Y060XBwy1Nw
+
+{
+  "channel_id": "465ae94e-f3cd-4632-ba78-d18785ac34df",
+  "name": "name1.1",
+  "description": "des1.1",
+  "status": "PUBLIC",
+  "orderNumber": "6"
+}
+
+### change Status
+PUT localhost:8080/api/v1/play_list/change_status?plId=2&status=PRIVATE
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTI0Mjc3NjksImVtYWlsIjoiMTIzNDU2N0BtYWlsLnV6Iiwicm9sZSI6IlJPTEVfVVNFUiIsImV4cCI6MTY5MjUxNDE2OSwiaXNzIjoia3VudXogdGVzdCBwb3J0YWxpIn0.fPIJ9nUKyDM6IZHjFvM961XwduVg2BLiKcxvJEV7q1pidJZzOfL8QVc6RyKN0iw7j4vA0vGnEW1Y060XBwy1Nw
+

@@ -32,14 +32,16 @@ public class ChannelController {
 
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     @PutMapping(value = "/update/attach")
-    public ResponseEntity<Boolean> updateChannelPhoto(@RequestParam("attach_id") String attach_id) {
-        return ResponseEntity.ok(channelService.updateAttach(SpringSecurityUtil.getCurrentUser().getProfile(), attach_id));
+    public ResponseEntity<Boolean> updateChannelPhoto(@RequestParam("attach_id") String attach_id,
+                                                      @RequestParam("channel_id") String channel_id ) {
+        return ResponseEntity.ok(channelService.updateAttach(SpringSecurityUtil.getCurrentUser().getProfile(), attach_id, channel_id));
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     @PutMapping(value = "/update/banner")
-    public ResponseEntity<Boolean> updateChannelBanner(@RequestParam("attach_id") String attach_id) {
-        return ResponseEntity.ok(channelService.updateBanner(SpringSecurityUtil.getCurrentUser().getProfile(), attach_id));
+    public ResponseEntity<Boolean> updateChannelBanner(@RequestParam("attach_id") String attach_id,
+                                                       @RequestParam("channel_id") String channel_id) {
+        return ResponseEntity.ok(channelService.updateBanner(SpringSecurityUtil.getCurrentUser().getProfile(), attach_id, channel_id));
     }
 
 
@@ -55,15 +57,15 @@ public class ChannelController {
         return ResponseEntity.ok(channelService.getChannel(channelId));
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_OWNER')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping(value = "/change_status")
     public ResponseEntity<Boolean> changeStatus(@RequestParam("channelId") String channelId) {
         return ResponseEntity.ok(channelService.changeStatus(channelId));
     }
 
-    @GetMapping(value = "open/list")
+    @GetMapping(value = "/open/list")
     public ResponseEntity<?> list() {
-        return ResponseEntity.ok(channelService.list(SpringSecurityUtil.getCurrentUser().getProfile().getId()));
+        return ResponseEntity.ok(channelService.list());
     }
 
 }

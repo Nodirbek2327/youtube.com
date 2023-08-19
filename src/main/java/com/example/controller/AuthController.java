@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.dto.ApiResponseDTO;
 import com.example.dto.AuthDTO;
 import com.example.dto.RegistrationDTO;
+import com.example.enums.Language;
 import com.example.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,10 @@ public class AuthController {
     }
 
     @PostMapping(value = {"/registration"})
-    public ResponseEntity<ApiResponseDTO> registration(@RequestBody RegistrationDTO dto) {
+    public ResponseEntity<ApiResponseDTO> registration(@RequestBody RegistrationDTO dto,
+                                                       @RequestParam(value = "lang", defaultValue = "uz")  Language language) {
         log.info("registration email: "+dto.getEmail());
-        return ResponseEntity.ok(authService.registration(dto));
+        return ResponseEntity.ok(authService.registration(dto, language));
     }
 
     @GetMapping(value = {"/verification/email/{jwt}"})

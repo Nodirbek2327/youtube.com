@@ -3,8 +3,8 @@ POST localhost:8080/api/v1/auth/login
 Content-Type:  application/json
 
 {
-  "email": "1234567@mail.uz",
-  "password": "1234567"
+  "email": "123@mail.ru",
+  "password": "1234"
 }
 
 

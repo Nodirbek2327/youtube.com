@@ -1,0 +1,53 @@
+### create
+POST localhost:8080/api/v1/channel/create
+Content-Type:  application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTI0Mjc3NjksImVtYWlsIjoiMTIzNDU2N0BtYWlsLnV6Iiwicm9sZSI6IlJPTEVfVVNFUiIsImV4cCI6MTY5MjUxNDE2OSwiaXNzIjoia3VudXogdGVzdCBwb3J0YWxpIn0.fPIJ9nUKyDM6IZHjFvM961XwduVg2BLiKcxvJEV7q1pidJZzOfL8QVc6RyKN0iw7j4vA0vGnEW1Y060XBwy1Nw
+
+{
+  "name": "channel3",
+  "description": "des3",
+  "attachId": "7b9ee40e-6508-4be5-a656-19f1f41dc92e",
+  "bannerId": "d82511f7-0f97-4e7f-b7be-8fa7d6cc0a49"
+}
+
+
+### update
+PUT localhost:8080/api/v1/channel/update/a9aed812-028d-4317-8718-5358a707f9cb
+Content-Type:  application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTI0Mjc3NjksImVtYWlsIjoiMTIzNDU2N0BtYWlsLnV6Iiwicm9sZSI6IlJPTEVfVVNFUiIsImV4cCI6MTY5MjUxNDE2OSwiaXNzIjoia3VudXogdGVzdCBwb3J0YWxpIn0.fPIJ9nUKyDM6IZHjFvM961XwduVg2BLiKcxvJEV7q1pidJZzOfL8QVc6RyKN0iw7j4vA0vGnEW1Y060XBwy1Nw
+
+{
+  "name": "channel3",
+  "description": "des3",
+  "attachId": "d82511f7-0f97-4e7f-b7be-8fa7d6cc0a49",
+  "bannerId": "7b9ee40e-6508-4be5-a656-19f1f41dc92e"
+}
+
+
+### update image
+PUT localhost:8080/api/v1/channel/update/attach?attach_id=e31be9c2-65c3-4f85-b297-f0763e4c81d2&channel_id=3754e994-afac-4d9e-979f-1d86c6d1203f
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTI0Mjc3NjksImVtYWlsIjoiMTIzNDU2N0BtYWlsLnV6Iiwicm9sZSI6IlJPTEVfVVNFUiIsImV4cCI6MTY5MjUxNDE2OSwiaXNzIjoia3VudXogdGVzdCBwb3J0YWxpIn0.fPIJ9nUKyDM6IZHjFvM961XwduVg2BLiKcxvJEV7q1pidJZzOfL8QVc6RyKN0iw7j4vA0vGnEW1Y060XBwy1Nw
+
+
+### update banner
+PUT localhost:8080/api/v1/channel/update/banner?attach_id=e31be9c2-65c3-4f85-b297-f0763e4c81d2&channel_id=3754e994-afac-4d9e-979f-1d86c6d1203f
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTI0Mjc3NjksImVtYWlsIjoiMTIzNDU2N0BtYWlsLnV6Iiwicm9sZSI6IlJPTEVfVVNFUiIsImV4cCI6MTY5MjUxNDE2OSwiaXNzIjoia3VudXogdGVzdCBwb3J0YWxpIn0.fPIJ9nUKyDM6IZHjFvM961XwduVg2BLiKcxvJEV7q1pidJZzOfL8QVc6RyKN0iw7j4vA0vGnEW1Y060XBwy1Nw
+
+### pagination
+GET localhost:8080/api/v1/channel/pagination?from=1&to=2
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTI0NDE3MTUsImVtYWlsIjoiMTIzQG1haWwucnUiLCJyb2xlIjoiUk9MRV9BRE1JTiIsImV4cCI6MTY5MjUyODExNSwiaXNzIjoia3VudXogdGVzdCBwb3J0YWxpIn0.ksZ6kV_Sb5M59iAL33jc_VonHS8SLhryfLXlLsQGM1kdyOKhvCHxlMuxwyIeMJCLRUebRy9VudDCZIgbNteZ7g
+
+### get
+GET localhost:8080/api/v1/channel/open/get?channelId=3754e994-afac-4d9e-979f-1d86c6d1203f
+
+### get
+GET localhost:8080/api/v1/channel/open/list
+
+
+
+
+
+
+
+
+
